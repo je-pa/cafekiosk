@@ -59,3 +59,34 @@ public int calculateTotalPrice() {
         .sum();
 }
 ```
+
+# BDD, Behavior Driven Development
+- TDD에서 파생된 개발 방법
+- 함수 단위의 테스트에서 집중하기보다, **시나리오에 기반한 테스트케이스(TC) 자체에 집중**하여 테스트한다.
+- 개발자가 아닌 사람이 봐도 이해할 수 있을 정도의 추상화 수준(레벨)을 권장
+
+## Given / When / Then
+
+| 단계    | 내용                                  | DisplayName에 명확하게 작성할 수 있다.  |
+  |-------|-------------------------------------|------------------------------|
+| Given | 시나리오 진행에  필요한 모든 준비 과정(객체, 값, 상태 등) | 어떤 환경에서                      |
+| When  | 시나리오 행동 진행                          | 어던 행동을 진행했을 때                |
+| Then  | 시나리오 진행에 대한 결과 명시, 검증               | 어떤 상태 변화가 일어난다.              |
+
+## IntelliJ 라이브 템플릿 기능 사용하기
+![라이브 템플릿 기능 사용](img/live-templates.png)
+
+```java
+@org.junit.jupiter.api.DisplayName("")
+@org.junit.jupiter.api.Test
+void test(){
+    // given
+  
+    // when
+  
+    // then
+  
+}
+```
+
+> 참고: BDD 프레임워크인 Spock이 있다.
