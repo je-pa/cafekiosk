@@ -24,6 +24,7 @@ class CafeKioskTest {
   }
 
   @Test
+  @DisplayName("음료 1개를 추가하면 주문 목록에 담긴다.")
   void add() {
     CafeKiosk cafeKiosk = new CafeKiosk();
     cafeKiosk.add(new Americano());
