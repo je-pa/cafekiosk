@@ -52,9 +52,10 @@ class OrderServiceTest {
     LocalDateTime registeredDateTime = LocalDateTime.now();
 
     Product product1 = createProduct(HANDMADE, "001", 1000);
+    Product product14 = createProduct(HANDMADE, "001", 1000);
     Product product2 = createProduct(HANDMADE, "002", 3000);
     Product product3 = createProduct(HANDMADE, "003", 5000);
-    productRepository.saveAll(List.of(product1, product2, product3));
+    productRepository.saveAll(List.of(product1, product14,product2, product3));
 
     OrderCreateRequest request = OrderCreateRequest.builder()
         .productNumbers(List.of("001", "002"))
