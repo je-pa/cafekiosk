@@ -49,3 +49,17 @@
     @ImportAutoConfiguration
     public @interface DataJpaTest {
 ```
+
+### @DataJpaTest vs @SpringBootTest
+- 가장 큰 차이는 `@Transactional` 이다.
+  - `@DataJpaTest`에는 `@Transactional`이 있지만 `@SpringBootTest`에는 없다.
+  - 때문에 `@SpringBootTest`는 여러 테스트를 작동시키면 테스트끼리 영향을 줄 수 있다.
+    - `@AfterEach`를 사용해 각 테스트가 끝나고 데이터를 정리해줄 수 있다.
+      ```java
+           @AfterEach
+           void tearDown() {
+           orderProductRepository.deleteAllInBatch();
+           productRepository.deleteAllInBatch();
+           orderRepository.deleteAllInBatch();
+           }
+      ```
