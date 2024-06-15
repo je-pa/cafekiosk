@@ -63,3 +63,8 @@
            orderRepository.deleteAllInBatch();
            }
       ```
+> ✅ **`@Transactional` 주의사항!**
+> 
+> `@Transactional`을 사용하면 실제 테스트 하고자하는 로직에 `@Transactional`을 적용하지 않았음에도 적용한 것 처럼 작동한다.
+> 
+> 때문에 `@Transactional`적용해야 할 곳에 적용이 되지 않았어도 테스트가 성공해버려서 검증이 제대로 이루어지지 않기 때문에 주의가 필요하다. 
