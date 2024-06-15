@@ -5,7 +5,43 @@
 
 ### @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 order가 생성,삭제,변경이 되면 같이 작업이 일어나도록 CascadeType.ALL 설정
-
+- order가 save 될 때를 확인해보자.
+  ```java
+      @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+      private List<OrderProduct> orderProducts = new ArrayList<>();
+   ```
+   ```java
+     Order savedOrder = orderRepository.save(order);
+   ```
+  - 실행 결과 쿼리 중 일부: order가 저장될 때 관련 order_product도 같이 저장된 것을 볼 수 있다.
+    ```sql
+      Hibernate:
+      insert
+      into
+      orders
+      (created_date_time, modified_date_time, order_status, registered_date_time, total_price, id)
+      values
+      (?, ?, ?, ?, ?, default)
+      Hibernate:
+      insert
+      into
+      order_product
+      (created_date_time, modified_date_time, order_id, product_id, id)
+      values
+      (?, ?, ?, ?, default)
+      Hibernate:
+      insert
+      into
+      order_product
+      (created_date_time, modified_date_time, order_id, product_id, id)
+      values
+      (?, ?, ?, ?, default)
+      Hibernate:
+      insert
+      into
+      order_product 
+      ...
+    ```
 ### findAll{컬럼}In(List<>) List에 중복값 주의
 여기서는 주문할 때 ProductNumber로 상품을 찾았다.
 
