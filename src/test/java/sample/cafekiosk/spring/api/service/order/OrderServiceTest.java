@@ -46,11 +46,13 @@ class OrderServiceTest {
   @Autowired
   private OrderService orderService;
 
+
   @AfterEach
   void tearDown() {
     orderProductRepository.deleteAllInBatch();
     productRepository.deleteAllInBatch();
     orderRepository.deleteAllInBatch();
+    stockRepository.deleteAllInBatch();
   }
 
   @DisplayName("주문번호 리스트를 받아 주문을 생성한다.")
@@ -159,6 +161,32 @@ class OrderServiceTest {
             tuple("001", 0),
             tuple("002", 1)
         );
+  }
+
+  @DisplayName("재고가 부족한 상품으로 주문을 생성하려는 경우 예외가 발생한다.")
+  @Test
+  void createOrderWithNoStock() {
+    // given
+    LocalDateTime registeredDateTime = LocalDateTime.now();
+
+    Product product1 = createProduct(BOTTLE, "001", 1000);
+    Product product2 = createProduct(BAKERY, "002", 3000);
+    Product product3 = createProduct(HANDMADE, "003", 5000);
+    productRepository.saveAll(List.of(product1, product2, product3));
+
+    Stock stock1 = Stock.create("001", 2);
+    Stock stock2 = Stock.create("002", 2);
+    stock1.deductQuantity(1); // todo
+    stockRepository.saveAll(List.of(stock1, stock2));
+
+    OrderCreateRequest request = OrderCreateRequest.builder()
+        .productNumbers(List.of("001", "001", "002", "003"))
+        .build();
+
+    // when // then
+    assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime))
+        .isInstanceOf(IllegalArgumentException.class)
+        .hasMessage("재고가 부족한 상품이 있습니다.");
   }
 
   private Product createProduct(ProductType type, String productNumber, int price) {
