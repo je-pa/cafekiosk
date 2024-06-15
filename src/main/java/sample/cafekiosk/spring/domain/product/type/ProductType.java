@@ -1,4 +1,5 @@
 package sample.cafekiosk.spring.domain.product.type;
+import java.util.List;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -12,4 +13,7 @@ public enum ProductType {
 
   private final String text;
 
+  public static boolean containsStockType(ProductType type) {
+    return List.of(BOTTLE, BAKERY).contains(type);
+  }
 }
