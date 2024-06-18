@@ -54,6 +54,9 @@
 - 가장 큰 차이는 `@Transactional` 이다.
   - `@DataJpaTest`에는 `@Transactional`이 있지만 `@SpringBootTest`에는 없다.
   - 때문에 `@SpringBootTest`는 여러 테스트를 작동시키면 테스트끼리 영향을 줄 수 있다.
+    > ✅ **참고**
+    > 
+    > JUnit을 통한 Test가 실행된다면 `@Transactional`이 적용되어있는 로직이 끝나는 시점에 롤백이 된다.
     - `@AfterEach`를 사용해 각 테스트가 끝나고 데이터를 정리해줄 수 있다.
       ```java
            @AfterEach
