@@ -1,3 +1,69 @@
+# Test Double
+[Mocks Aren't Stubs 링크](https://martinfowler.com/articles/mocksArentStubs.html)
+5가지 종류가 있다.
+- Dummy: 아무 것도 하지 않는 깡통 객체
+
+- Fake: 단순한 형태로 동일한 기능은 수행하나, 프로덕션에서 쓰기에는 부족한 객체(ex.FakeRepository)
+> 지금은 DB에 직접 액세스 해서 데이터를 CRUD 하는데 FakeRepository로 한다면 메모리 맵 같은 것을 두고 사용
+
+- Stub: 테스트에서 요청한 것에 대해 미리 준비한 결과를 제공하는 객체
+  - 그 외에는 응답하지 않는다.
+
+- Spy: Stub이면서 호출된 내용을 기록하여 보여줄 수 있는 객체
+  - 일부는 실제 객체처럼 동작시키고 일부만 stubbing 할 수 있다.
+
+- Mock: 행위에 대한 기대를 명세하고, 그에 따라 동작하도록 만들어진 객체
+
+## Stub과 Mock의 차이
+가짜 객체고, 요청한 것에 대한 어떠한 응답을 기대하는 것은 비슷하지만 검증하려는 목적이 다르다.
+- Stub
+  - 상태 검증(state verification): 내부적인 상태가 어떻게 바뀌었는가에 초점
+    ```java
+    public interface MailService {
+      public void send (Message msg);
+    }
+    public class MailServiceStub implements MailService { // 메일을 구현하는 stub
+      private List<Message> messages = new ArrayList<Message>();
+      public void send (Message msg) {
+        messages.add(msg);
+      }
+      public int numberSent() {
+        return messages.size();
+      }
+    }                                 
+    We can then use state verification on the stub like this.
+    
+    class OrderStateTester...
+    
+      public void testOrderSendsMailIfUnfilled() {
+        Order order = new Order(TALISKER, 51);
+        MailServiceStub mailer = new MailServiceStub();
+        order.setMailer(mailer);
+        order.fill(warehouse);
+        assertEquals(1, mailer.numberSent()); // 상태 검증
+      }
+    ```
+- Mock
+  - 행위 검증(Behavior Verification): given when then 처럼 행위에 대한 것을 중심으로 검증한다.
+    ```java
+    class OrderInteractionTester...
+    
+      public void testOrderSendsMailIfUnfilled() {
+        Order order = new Order(TALISKER, 51);
+        Mock warehouse = mock(Warehouse.class);
+        Mock mailer = mock(MailService.class);
+        order.setMailer((MailService) mailer.proxy());
+    
+        mailer.expects(once()).method("send"); // 메서드가 한 번 불렸다는 행위 검증
+        warehouse.expects(once()).method("hasInventory")
+          .withAnyArguments()
+          .will(returnValue(false));
+    
+        order.fill((Warehouse) warehouse.proxy());
+      }
+    }
+    ```
+    
 # Mock
 의존성이 필요한 객체를 가짜 객체로 만들어 정상 동작할 것이라 가정하여 
 테스트 하고자 하는 레이어에만 집중해서 테스트할 수 있게 도와주는 역할을 한다.
@@ -85,4 +151,3 @@ private ProductService productService;
 when(mailSendClient.sendEmail(any(String.class), any(String.class), any(String.class), any(String.class)))
         .thenReturn(true);
 ```
-
