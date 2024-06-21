@@ -68,3 +68,8 @@ order가 생성,삭제,변경이 되면 같이 작업이 일어나도록 Cascade
 > - 예시
 >   ![Exception](img/Exception_Collectors_toMap_duplicate.png)
 > 
+
+## Transactional(readOnly = true)
+- CQRS - `Command`와 `Read`를 분리 
+  - 통상적인 서비스에서 Command(cud) 형 행위보다 Read 행위가 훨씬 빈도수가 높다. 
+  - readOnly를 사용하여 책임을 의도적으로 분리할 수 있다.
