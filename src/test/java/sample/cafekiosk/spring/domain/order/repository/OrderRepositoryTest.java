@@ -28,8 +28,6 @@ class OrderRepositoryTest {
   @Autowired
   private ProductRepository productRepository;
 
-  // TODO
-
   @DisplayName("원하는 주문상태를 가진 특정 기간 내의 주문들을 조회한다.")
   @Test
   void findOrdersBy(){
