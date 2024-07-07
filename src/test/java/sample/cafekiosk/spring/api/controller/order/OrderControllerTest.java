@@ -49,7 +49,7 @@ class OrderControllerTest {
         .andExpect(jsonPath("$.code").value("200"))
         .andExpect(jsonPath("$.status").value("OK"))
         .andExpect(jsonPath("$.message").value("OK"));
-    ;
+
   }
 
   @DisplayName("신규 주문을 등록할 때 상품번호는 1개 이상이어야 한다.")
