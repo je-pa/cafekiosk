@@ -42,7 +42,7 @@ order가 생성,삭제,변경이 되면 같이 작업이 일어나도록 Cascade
       order_product 
       ...
     ```
-### findAll{컬럼}In(List<>) List에 중복값 주의
+### findAllBy{컬럼}In(List<>) List에 중복값 주의
 여기서는 주문할 때 ProductNumber로 상품을 찾았다.
 
 주문을 같은 상품을 2개이상 한다면 `findAllByProductNumberIn`에서 반환되는 상품리스트는 상품의 중복은 없을 것이다.
@@ -50,9 +50,9 @@ order가 생성,삭제,변경이 되면 같이 작업이 일어나도록 Cascade
 그래서 아래에서는 중복이 없는 결과를 Map 자료형으로 만들어주고 Map을 이용해 기존의 dto 변환작업을 해준다. 
 ```java
   private List<Product> findProductsBy(List<String> productNumbers) {
-    List<Product> products = productRepository.findAllByProductNumberIn(productNumbers);
+    List<Product> products = productRepository.findAllByProductNumberIn(productNumbers); // 중복이 된다면
     Map<String, Product> productMap = products.stream()
-        .collect(Collectors.toMap(Product::getProductNumber, p -> p));
+        .collect(Collectors.toMap(Product::getProductNumber, p -> p)); // 오류뜰 것이다.
 
     return productNumbers.stream()
         .map(productMap::get)
@@ -67,9 +67,4 @@ order가 생성,삭제,변경이 되면 같이 작업이 일어나도록 Cascade
 > 
 > - 예시
 >   ![Exception](img/Exception_Collectors_toMap_duplicate.png)
-> 
-
-## Transactional(readOnly = true)
-- CQRS - `Command`와 `Read`를 분리 
-  - 통상적인 서비스에서 Command(cud) 형 행위보다 Read 행위가 훨씬 빈도수가 높다. 
-  - readOnly를 사용하여 책임을 의도적으로 분리할 수 있다.
+>

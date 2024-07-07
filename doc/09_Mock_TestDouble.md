@@ -1,4 +1,4 @@
-# Test Double
+# Test Double 다섯가지 종류
 [Mocks Aren't Stubs 링크](https://martinfowler.com/articles/mocksArentStubs.html)
 5가지 종류가 있다.
 - Dummy: 아무 것도 하지 않는 깡통 객체
@@ -11,13 +11,15 @@
 
 - Spy: Stub이면서 호출된 내용을 기록하여 보여줄 수 있는 객체
   - 일부는 실제 객체처럼 동작시키고 일부만 stubbing 할 수 있다.
+  - 행위에 대한 기록(ex. 몇번 호출 됐는지)
+    - `verify()`와 비슷하다
 
 - Mock: 행위에 대한 기대를 명세하고, 그에 따라 동작하도록 만들어진 객체
 
 ## Stub과 Mock의 차이
 가짜 객체고, 요청한 것에 대한 어떠한 응답을 기대하는 것은 비슷하지만 검증하려는 목적이 다르다.
 - Stub
-  - 상태 검증(state verification): 내부적인 상태가 어떻게 바뀌었는가에 초점
+  - 상태 검증(state verification): 내부적인 상태가 어떻게 바뀌었는가에 초점(결과가 어떻게 되었고...)
     ```java
     public interface MailService {
       public void send (Message msg);
@@ -31,7 +33,7 @@
         return messages.size();
       }
     }                                 
-    We can then use state verification on the stub like this.
+   //  We can then use state verification on the stub like this.
     
     class OrderStateTester...
     
@@ -40,13 +42,13 @@
         MailServiceStub mailer = new MailServiceStub();
         order.setMailer(mailer);
         order.fill(warehouse);
-        assertEquals(1, mailer.numberSent()); // 상태 검증
+        assertEquals(1, mailer.numberSent()); // 상태 검증 - 위를 수행했을 때 어떤일이 일어났는가?
       }
     ```
 - Mock
-  - 행위 검증(Behavior Verification): given when then 처럼 행위에 대한 것을 중심으로 검증한다.
+  - 행위 검증(Behavior Verification): given when then 처럼 행위에 대한 것을 중심으로 검증한다. (~했을 때 ~할거야)
     ```java
-    class OrderInteractionTester...
+    class OrderInteractionTester{
     
       public void testOrderSendsMailIfUnfilled() {
         Order order = new Order(TALISKER, 51);
@@ -147,6 +149,7 @@ class ProductControllerTest {
 private ProductService productService;
 ```
 ## stubbing
+mock 객체에 우리가 원하는 행위를 정의하는 것이 subbing이라고 한다.
 ```java
 when(mailSendClient.sendEmail(any(String.class), any(String.class), any(String.class), any(String.class)))
         .thenReturn(true);
