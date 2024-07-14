@@ -1,13 +1,19 @@
 package sample.cafekiosk.spring.api.service.order;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static sample.cafekiosk.spring.domain.product.type.ProductSellingStatus.SELLING;
+import static sample.cafekiosk.spring.domain.product.type.ProductType.HANDMADE;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
-import sample.cafekiosk.spring.client.mail.MailSendClient;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.mail.MailSendHistoryRepository;
 import sample.cafekiosk.spring.domain.order.Order;
@@ -15,22 +21,10 @@ import sample.cafekiosk.spring.domain.order.repository.OrderRepository;
 import sample.cafekiosk.spring.domain.order.type.OrderStatus;
 import sample.cafekiosk.spring.domain.orderproduct.repository.OrderProductRepository;
 import sample.cafekiosk.spring.domain.product.Product;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 import sample.cafekiosk.spring.domain.product.repository.ProductRepository;
 import sample.cafekiosk.spring.domain.product.type.ProductType;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static sample.cafekiosk.spring.domain.product.type.ProductSellingStatus.SELLING;
-import static sample.cafekiosk.spring.domain.product.type.ProductType.HANDMADE;
-
-@SpringBootTest
-@ActiveProfiles("test")
-class OrderStatisticsServiceTest {
+class OrderStatisticsServiceTest extends IntegrationTestSupport {
 
   @Autowired
   private OrderStatisticsService orderStatisticsService;
@@ -46,9 +40,6 @@ class OrderStatisticsServiceTest {
 
   @Autowired
   private MailSendHistoryRepository mailSendHistoryRepository;
-
-  @MockBean
-  private MailSendClient mailSendClient;
 
   @AfterEach
   void tearDown() {

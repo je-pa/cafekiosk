@@ -1,24 +1,5 @@
 package sample.cafekiosk.spring.api.service.order;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
-import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
-import sample.cafekiosk.spring.domain.order.repository.OrderRepository;
-import sample.cafekiosk.spring.domain.orderproduct.repository.OrderProductRepository;
-import sample.cafekiosk.spring.domain.product.Product;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import sample.cafekiosk.spring.domain.product.repository.ProductRepository;
-import sample.cafekiosk.spring.domain.product.type.ProductType;
-import sample.cafekiosk.spring.domain.stock.Stock;
-import sample.cafekiosk.spring.domain.stock.repository.StockRepository;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
@@ -27,9 +8,24 @@ import static sample.cafekiosk.spring.domain.product.type.ProductType.BAKERY;
 import static sample.cafekiosk.spring.domain.product.type.ProductType.BOTTLE;
 import static sample.cafekiosk.spring.domain.product.type.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class OrderServiceTest {
+import java.time.LocalDateTime;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import sample.cafekiosk.spring.IntegrationTestSupport;
+import sample.cafekiosk.spring.api.controller.order.request.OrderCreateRequest;
+import sample.cafekiosk.spring.api.service.order.response.OrderResponse;
+import sample.cafekiosk.spring.domain.order.repository.OrderRepository;
+import sample.cafekiosk.spring.domain.orderproduct.repository.OrderProductRepository;
+import sample.cafekiosk.spring.domain.product.Product;
+import sample.cafekiosk.spring.domain.product.repository.ProductRepository;
+import sample.cafekiosk.spring.domain.product.type.ProductType;
+import sample.cafekiosk.spring.domain.stock.Stock;
+import sample.cafekiosk.spring.domain.stock.repository.StockRepository;
+
+class OrderServiceTest extends IntegrationTestSupport {
 
   @Autowired
   private ProductRepository productRepository;

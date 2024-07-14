@@ -1,34 +1,32 @@
 package sample.cafekiosk.spring.api.service.product;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
-import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
-import sample.cafekiosk.spring.domain.product.Product;
-
-import java.util.List;
-import sample.cafekiosk.spring.domain.product.repository.ProductRepository;
-import sample.cafekiosk.spring.domain.product.type.ProductSellingStatus;
-import sample.cafekiosk.spring.domain.product.type.ProductType;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static sample.cafekiosk.spring.domain.product.type.ProductSellingStatus.SELLING;
 import static sample.cafekiosk.spring.domain.product.type.ProductType.HANDMADE;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class ProductServiceTest {
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import sample.cafekiosk.spring.IntegrationTestSupport;
+import sample.cafekiosk.spring.api.controller.product.dto.request.ProductCreateRequest;
+import sample.cafekiosk.spring.api.service.product.response.ProductResponse;
+import sample.cafekiosk.spring.domain.product.Product;
+import sample.cafekiosk.spring.domain.product.repository.ProductRepository;
+import sample.cafekiosk.spring.domain.product.type.ProductSellingStatus;
+import sample.cafekiosk.spring.domain.product.type.ProductType;
+
+class ProductServiceTest extends IntegrationTestSupport {
 
   @Autowired
   private ProductService productService;
 
   @Autowired
   private ProductRepository productRepository;
+
+
 
   @AfterEach
   void tearDown() {
