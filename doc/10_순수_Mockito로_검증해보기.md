@@ -212,7 +212,7 @@ doReturn(true)
 ```
 작성하면 doReturn으로 stubbing 해준 sendEmail만 stubbing이 되고 mailSendClient 원본 객체대로 행동하여 여기서는 로그가 찍히는 것을 볼 수 있다.
 
-![img.png](img.png)
+![img.png](img/img.png)
 
 > 한 객체 안에서 일부는 stubbing 일부는 실제 원본 객체 사용하고 싶을 때 spy를 사용하면 된다.
 
